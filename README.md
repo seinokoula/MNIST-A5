@@ -1,55 +1,60 @@
-# Classification MNIST - Web
+# Classification de Chiffres Manuscrits - MNIST
 
-Ce projet implémente une IA de classification de chiffres manuscrits MNIST avec une interface web interactive.
+Une application web interactive pour la reconnaissance de chiffres manuscrits utilisant un réseau de neurones convolutionnel (CNN) entraîné sur le dataset MNIST.
 
-## Structure du projet
+## 🎯 Fonctionnalités
 
-- `train_mnist.py` - Script d'entraînement du modèle PyTorch et export ONNX
-- `index.html` - Page web interactive
-- `script.js` - Logique JavaScript pour le canvas et l'inférence ONNX
-- `requirements.txt` - Dépendances Python
+- **Interface de dessin interactive** : Dessinez des chiffres directement sur le canvas avec la souris ou le tactile
+- **Prédiction en temps réel** : Classification instantanée des chiffres dessinés (0-9)
+- **Visualisation des probabilités** : Affichage graphique de la confiance pour chaque chiffre
+- **Modèle optimisé** : Réseau de neurones convolutionnel avec normalisation par batch et dropout
 
-## Installation et utilisation
+## 🚀 Utilisation
 
-### 1. Entraînement du modèle
+1. Ouvrez `index.html` dans votre navigateur web
+2. Dessinez un chiffre sur le canvas noir
+3. Cliquez sur "Prédire" pour obtenir la classification
+4. Utilisez "Effacer" pour recommencer
 
-```bash
-# Installer les dépendances
-pip install -r requirements.txt
+## 🏗️ Architecture du Modèle
 
-# Entraîner le modèle et l'exporter en ONNX
-python train_mnist.py
+Le modèle utilise une architecture CNN avec :
+- 2 blocs convolutionnels (32 et 64 filtres)
+- Normalisation par batch et MaxPooling
+- Couches fully connected avec dropout (0.2)
+- Sortie : 10 classes (chiffres 0-9)
+
+## 📁 Structure du Projet
+
+```
+MNIST-a5/
+├── index.html          # Interface utilisateur
+├── script.js           # Logique de l'application
+├── project.ipynb       # Entraînement du modèle
+├── mnist_model.onnx    # Modèle exporté pour le web
+├── mnist_model.pth     # Modèle PyTorch
+└── data/MNIST/         # Dataset MNIST
 ```
 
-Cette étape génère:
-- `mnist_model.pth` - Modèle PyTorch sauvegardé
-- `mnist_model.onnx` - Modèle exporté en format ONNX
+## 🛠️ Technologies
 
-### 2. Interface web
+- **Frontend** : HTML5 Canvas, JavaScript ES6
+- **Machine Learning** : PyTorch, ONNX Runtime Web
+- **Dataset** : MNIST (60k images d'entraînement, 10k de test)
 
-Servir les fichiers avec un serveur web local:
+## 📊 Performance
 
-```bash
-# Avec Python
-python -m http.server 8000
+Le modèle atteint une précision de **~98%** sur le dataset de test MNIST après 5 époques d'entraînement.
 
-# Avec Node.js (si disponible)
-npx serve .
-```
+## 🔧 Développement
 
-Ouvrir http://localhost:8000 dans votre navigateur.
+Pour réentraîner le modèle :
+1. Installez les dépendances : `torch`, `torchvision`, `onnx`
+2. Exécutez `project.ipynb` pour l'entraînement
+3. Le modèle sera exporté automatiquement au format ONNX
 
-## Fonctionnalités
+## 📝 Notes Techniques
 
-- ✅ Canvas interactif pour dessiner des chiffres
-- ✅ Inférence en temps réel côté client avec ONNX Runtime Web
-- ✅ Affichage des probabilités pour chaque chiffre (0-9)
-- ✅ Interface responsive et intuitive
-- ✅ Support tactile pour appareils mobiles
-
-## Architecture
-
-1. **Entraînement**: PyTorch avec un réseau CNN simple
-2. **Export**: Conversion au format ONNX pour l'interopérabilité
-3. **Inférence web**: ONNX Runtime Web pour l'exécution côté client
-4. **Interface**: Canvas HTML5 pour la saisie utilisateur
+- Le canvas utilise une résolution de 280x280px, redimensionnée à 28x28px pour l'inférence
+- Normalisation des données : moyenne=0.1307, écart-type=0.3081 (standards MNIST)
+- Support tactile pour les appareils mobiles
